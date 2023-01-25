@@ -29,7 +29,7 @@ promotion-alpha: require-clean-tree
 	git push -u origin HEAD && \
 	export PR_URL="$$(gh pr create --base main --head $$PR_BRANCH --fill --draft)" && \
 	echo "$$PR_URL" && \
-	python3 -m webbrowser "$$PR_URL"
+	python3 -m webbrowser "$$PR_URL/files"
 
 github-release: require-clean-tree
 	git checkout main && \
@@ -71,7 +71,7 @@ version-alpha: require-clean-tree
 	git push -u origin HEAD && \
 	export PR_URL="$$(gh pr create --base main --head $$PR_BRANCH --fill --draft)" && \
 	echo "$$PR_URL" && \
-	python3 -m webbrowser "$$PR_URL"
+	python3 -m webbrowser "$$PR_URL/files"
 
 promotion-patch: require-clean-tree
 	git pull upstream HEAD && \
@@ -89,7 +89,7 @@ promotion-patch: require-clean-tree
 	git push -u origin HEAD && \
 	export PR_URL="$$(gh pr create --base $$BASE_BRANCH --head $$PR_BRANCH --fill --draft)" && \
 	echo "$$PR_URL" && \
-	python3 -m webbrowser "$$PR_URL" && \
+	python3 -m webbrowser "$$PR_URL/files" && \
 	git checkout $$BASE_BRANCH
 
 github-release-patch: require-clean-tree
@@ -103,7 +103,7 @@ pull-request-main: require-clean-tree
 	git push -u origin HEAD && \
 	export PR_URL="$$(gh pr create --base main --fill --draft)" && \
 	echo "PR URL: $$PR_URL" && \
-	python3 -m webbrowser "$$PR_URL"
+	python3 -m webbrowser "$$PR_URL/files"
 
 venv:
 	python3 -m venv .venv && \
