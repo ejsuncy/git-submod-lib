@@ -71,7 +71,9 @@ version-alpha: require-clean-tree
 	git push -u origin HEAD && \
 	export PR_URL="$$(gh pr create --base main --head $$PR_BRANCH --fill --draft)" && \
 	echo "$$PR_URL" && \
-	python3 -m webbrowser "$$PR_URL/files"
+	python3 -m webbrowser "$$PR_URL/files" && \
+	git checkout main && \
+	git pull
 
 promotion-patch: require-clean-tree
 	git pull upstream HEAD && \
