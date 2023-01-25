@@ -27,12 +27,12 @@ promotion-alpha: require-clean-tree
 	git add . && \
 	git commit -m "Promote v${ALPHA_VERSION} to v${MINOR_VERSION}" && \
 	git push -u origin HEAD && \
-	gh pr create --web --base main --head ${PR_BRANCH} --fill --draft
+	gh pr create --base main --head ${PR_BRANCH} --fill --draft
 
 github-release: require-clean-tree
 	git checkout main && \
 	git pull && \
-	gh release create --web --draft --generate-notes --target main --title "Release v$(VERSION)" "v$(VERSION)"
+	gh release create --draft --generate-notes --target main --title "Release v$(VERSION)" "v$(VERSION)"
 
 github-image: require-clean-tree
 	git pull upstream HEAD && \
@@ -65,7 +65,7 @@ version-alpha: require-clean-tree
 	git add . && \
 	git cm "Move main to v$(VERSION)" && \
 	git push -u origin HEAD && \
-	gh pr create --web --base main --head ${PR_BRANCH} --fill --draft
+	gh pr create --base main --head ${PR_BRANCH} --fill --draft
 
 promotion-patch: require-clean-tree
 	git pull upstream HEAD && \
@@ -81,13 +81,13 @@ promotion-patch: require-clean-tree
 	git add . && \
 	git commit -m "Patch v${BASE_VERSION} to v${PATCH_VERSION}" && \
 	git push -u origin HEAD && \
-	gh pr create --web --base ${BASE_BRANCH} --head ${PR_BRANCH} --fill --draft && \
+	gh pr create --base ${BASE_BRANCH} --head ${PR_BRANCH} --fill --draft && \
 	git checkout $BASE_BRANCH
 
 github-release-patch: require-clean-tree
 	git pull upstream HEAD && \
 	export PATCH_VERSION="$(VERSION)" && \
-	gh release create --web --draft --generate-notes --target $(CURRENT_BRANCH) --title "Patch v${PATCH_VERSION}" "v${PATCH_VERSION}"
+	gh release create --draft --generate-notes --target $(CURRENT_BRANCH) --title "Patch v${PATCH_VERSION}" "v${PATCH_VERSION}"
 
 pull-request-main: require-clean-tree
 	git push -u origin HEAD && \
