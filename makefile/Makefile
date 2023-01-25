@@ -6,7 +6,15 @@ ORIGIN_REPO=`git config --get remote.origin.url | sed -E 's/^git@.*:([[:graph:]]
 UPSTREAM_ORG=`git config --get remote.upstream.url | sed -E 's/^git@.*:([[:graph:]]*)\/([[:graph:]]*).git/\1/' | tr -d '\n'`
 UPSTREAM_REPO=`git config --get remote.upstream.url | sed -E 's/^git@.*:([[:graph:]]*)\/([[:graph:]]*).git/\2/' | tr -d '\n'`
 
-promotion-alpha:
+require-clean-tree:
+	if git diff --quiet HEAD; then \
+  		echo 'Tree is clean'; \
+  	else \
+  		echo 'Uncommitted changes...aborting'; \
+  		exit 1; \
+	fi
+
+promotion-alpha: require-clean-tree
 	git checkout main && \
 	git pull && \
 	export ALPHA_VERSION="$(VERSION)" && \
@@ -19,18 +27,14 @@ promotion-alpha:
 	git add . && \
 	git commit -m "Promote v${ALPHA_VERSION} to v${MINOR_VERSION}" && \
 	git push -u origin HEAD && \
-	export PR_URL="$(gh pr create --base main --head ${PR_BRANCH} --fill --draft)" && \
-	echo "${PR_URL}" && \
-	python -m webbrowser "${PR_URL}"
+	gh pr create --web --base main --head ${PR_BRANCH} --fill --draft
 
-github-release:
+github-release: require-clean-tree
 	git checkout main && \
 	git pull && \
-	export RELEASE_URL="$(gh release create --draft --generate-notes --target main --title "Release v$(VERSION)" "v$(VERSION)")" && \
-	echo "${RELEASE_URL}" && \
-	python -m webbrowser "${RELEASE_URL}"
+	gh release create --web --draft --generate-notes --target main --title "Release v$(VERSION)" "v$(VERSION)"
 
-github-image:
+github-image: require-clean-tree
 	git pull upstream HEAD && \
 	export IMAGE_NAME="ghcr.io/$(UPSTREAM_ORG)/$(UPSTREAM_REPO)" && \
 	export IMAGE_TAG="${IMAGE_NAME}:$(VERSION)" && \
@@ -44,7 +48,7 @@ github-image:
 	git checkout main && \
 	git pull upstream main
 
-github-branch:
+github-branch: require-clean-tree
 	git checkout main && \
 	git pull && \
 	export CURRENT_VERSION="$(VERSION)" && \
@@ -52,7 +56,7 @@ github-branch:
 	git checkout -b "${VERSION_RELEASE_BRANCH}" && \
 	git push -u origin HEAD
 
-version-alpha:
+version-alpha: require-clean-tree
 	git checkout main && \
 	git pull && \
 	BUILDRUNNER_BUMP_TYPE=minor buildrunner -f buildrunner/buildrunner.yaml -s bump-version && \
@@ -61,11 +65,9 @@ version-alpha:
 	git add . && \
 	git cm "Move main to v$(VERSION)" && \
 	git push -u origin HEAD && \
-	export PR_URL="$(gh pr create --base main --head ${PR_BRANCH} --fill --draft)" && \
-	echo "${PR_URL}" && \
-	python -m webbrowser "${PR_URL}"
+	gh pr create --web --base main --head ${PR_BRANCH} --fill --draft
 
-promotion-patch:
+promotion-patch: require-clean-tree
 	git pull upstream HEAD && \
 	export BASE_BRANCH="$(CURRENT_BRANCH)" && \
 	export BASE_VERSION="$(VERSION)" && \
@@ -79,17 +81,17 @@ promotion-patch:
 	git add . && \
 	git commit -m "Patch v${BASE_VERSION} to v${PATCH_VERSION}" && \
 	git push -u origin HEAD && \
-	export PR_URL="$(gh pr create --base ${BASE_BRANCH} --head ${PR_BRANCH} --fill --draft)" && \
-	echo "${PR_URL}" && \
-	python -m webbrowser "${PR_URL}" && \
+	gh pr create --web --base ${BASE_BRANCH} --head ${PR_BRANCH} --fill --draft && \
 	git checkout $BASE_BRANCH
 
-github-release-patch:
+github-release-patch: require-clean-tree
 	git pull upstream HEAD && \
 	export PATCH_VERSION="$(VERSION)" && \
-	export PATCH_RELEASE_URL="$(gh release create --draft --generate-notes --target $(CURRENT_BRANCH) --title "Patch v${PATCH_VERSION}" "v${PATCH_VERSION}")" && \
-	echo "${PATCH_RELEASE_URL}" && \
-	python -m webbrowser "${PATCH_RELEASE_URL}"
+	gh release create --web --draft --generate-notes --target $(CURRENT_BRANCH) --title "Patch v${PATCH_VERSION}" "v${PATCH_VERSION}"
+
+pull-request-main: require-clean-tree
+	git push -u origin HEAD && \
+	gh pr create --base main --fill --draft
 
 venv:
 	python3 -m venv .venv && \
