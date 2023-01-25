@@ -17,6 +17,11 @@ make -f makefile/Makefile venv
 make -f makefile/Makefile build-image
 ```
 
+## Make a pull request to `main`
+```shell
+make -f makefile/Makefile pull-request-main
+```
+
 ## Releasing
 
 ### Minor releases
