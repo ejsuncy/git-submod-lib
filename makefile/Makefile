@@ -56,7 +56,7 @@ github-branch: require-clean-tree
 	git checkout main && \
 	git pull && \
 	export CURRENT_VERSION="$(VERSION)" && \
-	export VERSION_RELEASE_BRANCH="$$(echo -n "$$CURRENT_VERSION" | sed -E 's/(^[[:digit:]]+\.[[:digit:]]+\.)[[:digit:]]+a?$/\1x/')" && \
+	export VERSION_RELEASE_BRANCH="$$(echo "$$CURRENT_VERSION" | sed -E 's/(^[[:digit:]]+\.[[:digit:]]+\.)[[:digit:]]+a?$$/\1x/')" && \
 	git checkout -b "$$VERSION_RELEASE_BRANCH" && \
 	git push -u origin HEAD
 
