@@ -19,7 +19,7 @@ promotion-alpha: require-clean-tree
 	git pull && \
 	export ALPHA_VERSION="$(VERSION)" && \
 	export PR_BRANCH="promote-v${ALPHA_VERSION}" && \
-	git checkout -b "$PR_BRANCH" && \
+	git checkout -b "${PR_BRANCH}" && \
 	echo "Promoting v${ALPHA_VERSION}..." && \
 	BUILDRUNNER_BUMP_TYPE=alpha buildrunner -f buildrunner/buildrunner.yaml -s bump-version && \
 	export MINOR_VERSION="$(VERSION)" && \
