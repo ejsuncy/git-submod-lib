@@ -8,6 +8,11 @@ many projects.
 
 ## Contributing and Development
 
+### Update git-submod-lib submodule for current Makefile Targets
+```shell
+git submodule update --remote
+```
+
 ### Make Python venv
 ```shell
 make -f git-submod-lib/makefile/Makefile venv
