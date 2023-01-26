@@ -6,63 +6,62 @@ This repo holds common scripts and files to be included via
 [git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) across 
 many projects.
 
+## Contributing and Development
 
-## Make Python venv
+### Make Python venv
 ```shell
-make -f makefile/Makefile venv
+make -f git-submod-lib/makefile/Makefile venv
 ```
 
-## Build Image Locally
+### Build Image Locally
 ```shell
-make -f makefile/Makefile build-image
+make -f git-submod-lib/makefile/Makefile build-image
 ```
 
-## Make a pull request to `main`
+### Make a pull request to `main`
 ```shell
-make -f makefile/Makefile pull-request-main
+make -f git-submod-lib/makefile/Makefile pull-request-main
 ```
 
 ## Releasing
 
 ### Minor releases
 ```shell
-make -f makefile/Makefile promotion-alpha
+make -f git-submod-lib/makefile/Makefile promotion-alpha
 ```
 
 Once the PR is approved and merged:
 ```shell
-make -f makefile/Makefile github-release
+make -f git-submod-lib/makefile/Makefile github-release
 ```
 
 Once the Release is published:
 ```shell
-make -f makefile/Makefile github-image
+make -f git-submod-lib/makefile/Makefile github-image
 ```
 
 Now cut a version release branch:
 ```shell
-make -f makefile/Makefile github-branch
+make -f git-submod-lib/makefile/Makefile github-branch
 ```
 
 Now move `main` to the next `alpha` version to capture future development
 ```shell
-make -f makefile/Makefile version-alpha
+make -f git-submod-lib/makefile/Makefile version-alpha
 ```
 
 ### Patch releases
 Start with the version branch to be patched (ie `0.0.x`)
 ```shell
-make -f makefile/Makefile promotion-patch
+make -f git-submod-lib/makefile/Makefile promotion-patch
 ```
 
 Once the PR is approved and merged:
 ```shell
-make -f makefile/Makefile github-release-patch
+make -f git-submod-lib/makefile/Makefile github-release-patch
 ```
 
 Once the Patch Release is published:
 ```shell
-make -f makefile/Makefile github-image
+make -f git-submod-lib/makefile/Makefile github-image
 ```
-
-
