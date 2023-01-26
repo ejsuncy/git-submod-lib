@@ -1,5 +1,5 @@
 # git-submod-lib 
-![Current Version](https://img.shields.io/badge/Version-0.2.0a-brightgreen)
+![Current Version](https://img.shields.io/badge/Version-0.2.0-brightgreen)
 
 ---
 This repo holds common scripts and files to be included via 
