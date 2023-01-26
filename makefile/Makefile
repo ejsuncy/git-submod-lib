@@ -21,7 +21,7 @@ promotion-alpha: require-clean-tree
 	export PR_BRANCH="promote-v$$ALPHA_VERSION" && \
 	git checkout -b "$$PR_BRANCH" && \
 	echo "Promoting v$$ALPHA_VERSION..." && \
-	BUILDRUNNER_BUMP_TYPE=alpha buildrunner -f buildrunner/buildrunner.yaml -s bump-version && \
+	BUILDRUNNER_BUMP_TYPE=alpha buildrunner -f git-submod-lib/buildrunner/buildrunner.yaml -s bump-version && \
 	export MINOR_VERSION="$(VERSION)" && \
 	echo "Promoted v$$ALPHA_VERSION to v$$MINOR_VERSION" && \
 	git add . && \
@@ -63,7 +63,7 @@ github-branch: require-clean-tree
 version-alpha: require-clean-tree
 	git checkout main && \
 	git pull && \
-	BUILDRUNNER_BUMP_TYPE=minor buildrunner -f buildrunner/buildrunner.yaml -s bump-version && \
+	BUILDRUNNER_BUMP_TYPE=minor buildrunner -f git-submod-lib/buildrunner/buildrunner.yaml -s bump-version && \
 	export PR_BRANCH="move-main-to-v$(VERSION)" && \
 	git checkout -b "$$PR_BRANCH" && \
 	git add . && \
@@ -80,8 +80,8 @@ promotion-patch: require-clean-tree
 	export BASE_BRANCH="$(CURRENT_BRANCH)" && \
 	export BASE_VERSION="$(VERSION)" && \
 	echo "Patching v$$BASE_VERSION..." && \
-    BUILDRUNNER_BUMP_TYPE=patch buildrunner -f buildrunner/buildrunner.yaml -s bump-version && \
-    BUILDRUNNER_BUMP_TYPE=alpha buildrunner -f buildrunner/buildrunner.yaml -s bump-version && \
+    BUILDRUNNER_BUMP_TYPE=patch buildrunner -f git-submod-lib/buildrunner/buildrunner.yaml -s bump-version && \
+    BUILDRUNNER_BUMP_TYPE=alpha buildrunner -f git-submod-lib/buildrunner/buildrunner.yaml -s bump-version && \
 	export PATCH_VERSION="$(VERSION)" && \
 	export PR_BRANCH="patch-v$$PATCH_VERSION" && \
 	git checkout -b $$PR_BRANCH && \

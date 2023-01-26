@@ -1,5 +1,4 @@
 steps:
-
   bump-version:
     run:
       image: ghcr.io/ejsuncy/tool-build-bump2version:0.0.1
