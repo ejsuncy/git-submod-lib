@@ -39,7 +39,7 @@ github-release: require-clean-tree
 	python3 -m webbrowser "$$RELEASE_URL"
 
 github-image: require-clean-tree
-	git pull upstream HEAD && \
+	git pull && \
 	export IMAGE_NAME="ghcr.io/$(UPSTREAM_ORG)/$(UPSTREAM_REPO)" && \
 	export IMAGE_TAG="$$IMAGE_NAME:$(VERSION)" && \
 	echo Building $$IMAGE_TAG && \
