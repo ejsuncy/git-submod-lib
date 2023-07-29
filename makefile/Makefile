@@ -34,7 +34,7 @@ promotion-alpha: require-clean-tree
 github-release: require-clean-tree
 	git checkout main && \
 	git pull && \
-	export RELEASE_URL="$$(gh release create --draft --generate-notes --target main --title "Release v$(VERSION)" "v$(VERSION)")" && \
+	export RELEASE_URL="$$(gh release create --draft --generate-notes --target main --title "Release v$(VERSION)" "v$(VERSION)") | sed 's/tag/edit/'" && \
 	echo "$$RELEASE_URL" && \
 	python3 -m webbrowser "$$RELEASE_URL"
 
