@@ -34,7 +34,7 @@ promotion-alpha: require-clean-tree
 github-release: require-clean-tree
 	git checkout main && \
 	git pull && \
-	export RELEASE_URL="$$(gh release create --draft --generate-notes --target main --title "Release v$(VERSION)" "v$(VERSION)") | sed 's/tag/edit/'" && \
+	export RELEASE_URL="$$(gh release create --draft --generate-notes --target main --title "Release v$(VERSION)" "v$(VERSION)" | sed 's/tag/edit/')" && \
 	echo "$$RELEASE_URL" && \
 	python3 -m webbrowser "$$RELEASE_URL"
 
@@ -97,7 +97,7 @@ promotion-patch: require-clean-tree
 github-release-patch: require-clean-tree
 	git pull && \
 	export PATCH_VERSION="$(VERSION)" && \
-	export PATCH_RELEASE_URL="$$(gh release create --draft --generate-notes --target $(CURRENT_BRANCH) --title "Patch v$$PATCH_VERSION" "v$$PATCH_VERSION") | sed 's/tag/edit/'" && \
+	export PATCH_RELEASE_URL="$$(gh release create --draft --generate-notes --target $(CURRENT_BRANCH) --title "Patch v$$PATCH_VERSION" "v$$PATCH_VERSION" | sed 's/tag/edit/')" && \
 	echo "$$PATCH_RELEASE_URL" && \
 	python3 -m webbrowser "$$PATCH_RELEASE_URL"
 
