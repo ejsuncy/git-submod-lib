@@ -119,3 +119,14 @@ build-image:
 	echo Building $$IMAGE_TAG && \
 	docker build . \
 	  --tag $$IMAGE_TAG
+
+build-python:
+	python3 -m venv .venv && \
+	source .venv/bin/activate && \
+	pip install --upgrade pip && \
+	pip install --upgrade build && \
+	python3 -m build
+
+twine-upload: build-python
+	pip install --upgrade twine && \
+	twine upload dist/*
