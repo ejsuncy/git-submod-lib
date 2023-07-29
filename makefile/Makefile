@@ -76,7 +76,7 @@ version-alpha: require-clean-tree
 	git pull
 
 promotion-patch: require-clean-tree
-	git pull upstream HEAD && \
+	git pull && \
 	export BASE_BRANCH="$(CURRENT_BRANCH)" && \
 	export BASE_VERSION="$(VERSION)" && \
 	echo "Patching v$$BASE_VERSION..." && \
