@@ -125,6 +125,8 @@ build-python:
 	source .venv/bin/activate && \
 	pip install --upgrade pip && \
 	pip install --upgrade build && \
+	rm -rf dist && \
+	rm -rf **/*.egg-info && \
 	python3 -m build
 
 twine-upload: build-python
