@@ -95,7 +95,7 @@ promotion-patch: require-clean-tree
 	git checkout $$BASE_BRANCH
 
 github-release-patch: require-clean-tree
-	git pull upstream HEAD && \
+	git pull && \
 	export PATCH_VERSION="$(VERSION)" && \
 	export PATCH_RELEASE_URL="$$(gh release create --draft --generate-notes --target $(CURRENT_BRANCH) --title "Patch v$$PATCH_VERSION" "v$$PATCH_VERSION")" && \
 	echo "$$PATCH_RELEASE_URL" && \
