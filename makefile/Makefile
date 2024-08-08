@@ -39,6 +39,7 @@ promotion-major: require-clean-tree
 	git checkout -b "$$PR_BRANCH" && \
 	echo "Promoting v$$ALPHA_VERSION..." && \
 	BUILDRUNNER_BUMP_TYPE=major buildrunner -f git-submod-lib/buildrunner/buildrunner.yaml -s bump-version && \
+	BUILDRUNNER_BUMP_TYPE=alpha buildrunner -f git-submod-lib/buildrunner/buildrunner.yaml -s bump-version && \
 	export MAJOR_VERSION="$(VERSION)" && \
 	echo "Promoted v$$ALPHA_VERSION to v$$MAJOR_VERSION" && \
 	git add . && \
