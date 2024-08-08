@@ -31,6 +31,23 @@ promotion-alpha: require-clean-tree
 	echo "$$PR_URL" && \
 	python3 -m webbrowser "$$PR_URL/files"
 
+promotion-major: require-clean-tree
+	git checkout main && \
+	git pull && \
+	export ALPHA_VERSION="$(VERSION)" && \
+	export PR_BRANCH="promote-v$$ALPHA_VERSION" && \
+	git checkout -b "$$PR_BRANCH" && \
+	echo "Promoting v$$ALPHA_VERSION..." && \
+	BUILDRUNNER_BUMP_TYPE=major buildrunner -f git-submod-lib/buildrunner/buildrunner.yaml -s bump-version && \
+	export MAJOR_VERSION="$(VERSION)" && \
+	echo "Promoted v$$ALPHA_VERSION to v$$MAJOR_VERSION" && \
+	git add . && \
+	git commit -m "Promote v$$ALPHA_VERSION to v$$MAJOR_VERSION" && \
+	git push -u origin HEAD && \
+	export PR_URL="$$(gh pr create --base main --head $$PR_BRANCH --fill --draft)" && \
+	echo "$$PR_URL" && \
+	python3 -m webbrowser "$$PR_URL/files"
+
 github-release: require-clean-tree
 	git checkout main && \
 	git pull && \
